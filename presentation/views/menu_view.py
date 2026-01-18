@@ -54,8 +54,8 @@ class MenuView(arcade.View):
 
     def switch_view(self, events, button):
         if button == 1:
-            game_view = GameView("level1")
+            game_view = GameView("asset/maps/level1.tmx")
             self.window.show_view(game_view)
         elif button == 2:
-            game_view = GameView("level2")
+            game_view = GameView("asset/maps/level2.tmx")
             self.window.show_view(game_view)
