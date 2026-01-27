@@ -3,7 +3,7 @@ from functools import partial
 import arcade
 from arcade.gui import UIManager, UIAnchorLayout, UIBoxLayout, UIFlatButton, UILabel
 
-from presentation.views.game_view import GameView
+from gameplay_presentation.game import Level1
 
 
 class MenuView(arcade.View):
@@ -34,7 +34,7 @@ class MenuView(arcade.View):
             height=100,
             color=arcade.color.BRICK_RED
         )
-        level_button1.on_click = partial(self.switch_view, button=1)
+        level_button1.on_click = partial(self.switch_view, button=1)  # Партиал позволяет без вызова передать аргументы
 
         level_button2 = UIFlatButton(
             text="Уровень 2",
@@ -54,8 +54,9 @@ class MenuView(arcade.View):
 
     def switch_view(self, events, button):
         if button == 1:
-            game_view = GameView("asset/maps/level1.tmx")
+            game_view = Level1()
             self.window.show_view(game_view)
         elif button == 2:
-            game_view = GameView("asset/maps/level2.tmx")
-            self.window.show_view(game_view)
+            ...
+            # game_view = Level1()
+            # self.window.show_view(game_view)

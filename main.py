@@ -1,12 +1,12 @@
 import arcade
 
-from presentation.game import Game
+from gameplay_presentation.window import MainWindow
 
 
 def setup_game(width, height, title):
-    game = Game(width, height, title)
-    game.setup()
-    return game
+    main_window = MainWindow(width, height, title)
+    main_window.setup()
+    return main_window
 
 
 def main():

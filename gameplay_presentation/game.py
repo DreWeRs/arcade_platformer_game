@@ -1,7 +1,7 @@
 import arcade
 from pyglet.graphics import Batch
 
-from game_logic import Logic
+from gameplay_presentation.game_logic import Logic
 
 SCREEN_WIDTH = 960
 SCREEN_HEIGHT = 640
@@ -12,15 +12,16 @@ JUMP_SPEED = 20  # Начальный импульс прыжка, пикс/с
 LADDER_SPEED = 4
 # Качество жизни прыжка
 COYOTE_TIME = 0.08  # Сколько после схода с платформы можно ещё прыгнуть
-JUMP_BUFFER = 0.12  # Если нажали прыжок чуть раньше приземления, мы его «запомним» (тоже лайфхак для улучшения качества жизни игрока)
+JUMP_BUFFER = 0.12  # Если нажали прыжок чуть раньше приземления, мы его «запомним» (тоже лайфхак для улучшения качества
 MAX_JUMPS = 1  # С двойным прыжком всё лучше, но не сегодня
 SCREEN_TITLE = "Real Jump"
 
 
-class Level1(arcade.Window):
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+class Level1(arcade.View):
+    def __init__(self):
+        super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
+        self.setup()
 
     def setup(self):
         self.player = arcade.Sprite(
@@ -31,6 +32,7 @@ class Level1(arcade.Window):
             scaling=0.5)  # Во встроенных ресурсах есть даже уровни!
         self.player.center_x = 100
         self.player.center_y = 100
+        self.player.health_points = 3
         self.player_spritelist = arcade.SpriteList()
         self.player_spritelist.append(self.player)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
@@ -114,9 +116,7 @@ class Level1(arcade.Window):
         self.logics.keys_logic('keys_yellow', 'doors_yellow', self.player, self.collisions)
         self.logics.keys_logic('keys_red', 'doors_red', self.player, self.collisions)
         self.score = self.logics.coins_logic('coins', self.score, self.player)
-        self.logics.trampoline_logic('trampolines',self.player,JUMP_SPEED * 2)
-
-
+        self.logics.trampoline_logic('trampolines', self.player, JUMP_SPEED * 2)
 
         self.text = arcade.Text(f'Score: {self.score}',
                                 10, self.height - 30, arcade.color.WHITE,
@@ -149,18 +149,3 @@ class Level1(arcade.Window):
             # Вариативная высота прыжка: отпустили рано — подрежем скорость вверх
             if self.player.change_y > 0:
                 self.player.change_y *= 0.45
-
-
-def setup_game(width=960, height=640, title="Real Jump"):
-    game = Level1(width, height, title)
-    game.setup()
-    return game
-
-
-def main():
-    setup_game(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    arcade.run()
-
-
-if __name__ == "__main__":
-    main()
