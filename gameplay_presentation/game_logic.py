@@ -23,3 +23,13 @@ class Logic:
     def trampoline_logic(self, trampoline, player, speed):
         if len(arcade.check_for_collision_with_list(player, self.scene[f'{trampoline}'])) > 0:
             player.change_y = speed
+
+    def checkpoints_flag(self, flag, player, checkpoint_x, checkpoint_y):
+        if len(arcade.check_for_collision_with_list(player, self.scene[f'{flag}'])) > 0:
+            checkpoint_x, checkpoint_y = self.scene['checkpoint'][0].position
+        return checkpoint_x, checkpoint_y
+
+    def hazard(self, hazards, player, checkpoint_x, checkpoint_y):
+        if len(arcade.check_for_collision_with_list(player, self.scene[f'{hazards}'])) > 0:
+            player.center_x = checkpoint_x
+            player.center_y = checkpoint_y
