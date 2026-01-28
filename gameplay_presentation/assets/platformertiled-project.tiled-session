@@ -1,0 +1,97 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "level2.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
+    "fileStates": {
+        "C:/Users/donpa/Downloads/base_1.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/donpa/Downloads/level_2.tmx": {
+            "scale": 0.15536458333333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 1267.9852497485754,
+                "y": 1921.2872946697955
+            }
+        },
+        "base_1.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "base_2.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "level1 — копия.tmx": {
+            "scale": 0.177939453125,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2562.6694473409802,
+                "y": 1278.5247791010372
+            }
+        },
+        "level1.tmx": {
+            "expandedGroupLayers": [
+                16
+            ],
+            "scale": 0.25,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3964,
+                "y": 1758
+            }
+        },
+        "level2.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 1933.3333333333335,
+                "y": 3143.939393939394
+            }
+        },
+        "level_2.tmx": {
+            "scale": 0.17045572916666665,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 5403.162478038348,
+                "y": 1921.319990833397
+            }
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/donpa/PycharmProjects/arcadeplatformergame/assets",
+    "last.imagePath": "C:/Users/donpa/PycharmProjects/arcade/куы1/Spritesheets",
+    "map.fixedSize": true,
+    "map.height": 40,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 80,
+    "openFiles": [
+        "level1.tmx",
+        "level2.tmx"
+    ],
+    "project": "platformertiled-project.tiled-project",
+    "property.type": "int",
+    "recentFiles": [
+        "level2.tmx",
+        "level1.tmx",
+        "level_2.tmx",
+        "C:/Users/donpa/Downloads/level_2.tmx",
+        "level1 — копия.tmx",
+        "base_1.tsx",
+        "base_2.tsx"
+    ],
+    "tileset.lastUsedFilter": "Файлы набора тайлов Tiled (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.spacing": 1,
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}
