@@ -3,7 +3,7 @@ from functools import partial
 import arcade
 from arcade.gui import UIManager, UIAnchorLayout, UIBoxLayout, UIFlatButton, UILabel
 
-from presentation.views.game_view import GameView
+from gameplay_presentation.game import Level
 
 
 class MenuView(arcade.View):
@@ -54,8 +54,8 @@ class MenuView(arcade.View):
 
     def switch_view(self, events, button):
         if button == 1:
-            game_view = GameView("asset/maps/level1.tmx")
-            self.window.show_view(game_view)
+            self.game_view = Level(map_path='assets/level1.tmx')
+            self.window.show_view(self.game_view)
         elif button == 2:
-            game_view = GameView("asset/maps/level2.tmx")
-            self.window.show_view(game_view)
+            self.game_view = Level(map_path='assets/level2.tmx')
+            self.window.show_view(self.game_view)

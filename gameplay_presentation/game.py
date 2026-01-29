@@ -2,23 +2,25 @@ import arcade
 from arcade.camera import Camera2D
 from pyglet.graphics import Batch
 
-import const
-from game_logic import Logic
+from gameplay_presentation import const
+from gameplay_presentation.game_logic import Logic
 
 SCREEN_TITLE = "Real Jump"
 
 
-class Level(arcade.Window):
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+class Level(arcade.View):
+    def __init__(self, map_path):
+        super().__init__()
         arcade.set_background_color(arcade.color.BLACK)
+        self.map_path = map_path
+        self.setup()
 
     def setup(self):
         self.player = arcade.Sprite(
             ":resources:/images/animated_characters/male_adventurer/maleAdventurer_idle.png",
             scale=0.5)
         self.tile_map = arcade.load_tilemap(
-            "assets/level1.tmx",
+            self.map_path,
             scaling=0.5)
         self.player.center_x = 100
         self.player.center_y = 100
@@ -34,7 +36,7 @@ class Level(arcade.Window):
         self.jump_buffer_timer = 0.0
         self.time_since_ground = 999.0
         self.jumps_left = const.MAX_JUMPS
-        self.logics = Logic(self.scene)
+        self.logics = Logic(self.scene, self.window)
         self.world_camera = Camera2D()
         self.gui_camera = Camera2D()
         """обьединяем спрайты с колизией в один список для передачи 
@@ -123,6 +125,7 @@ class Level(arcade.Window):
         self.logics.keys_logic('keys_red', 'doors_red', self.player, self.collisions)
         self.score = self.logics.coins_logic('coins', self.score, self.player)
         self.logics.trampoline_logic('trampolines', self.player, const.JUMP_SPEED * 2)
+        self.logics.level_finished('finish_flag', self.player, self.score)
         self.text = arcade.Text(f'Score: {self.score}',
                                 10, self.height - 30, arcade.color.WHITE,
                                 24, batch=self.batch)
@@ -164,18 +167,3 @@ class Level(arcade.Window):
             # Вариативная высота прыжка: отпустили рано — подрежем скорость вверх
             if self.player.change_y > 0:
                 self.player.change_y *= 0.45
-
-
-def setup_game(width=960, height=640, title="Real Jump"):
-    game = Level(width, height, title)
-    game.setup()
-    return game
-
-
-def main():
-    setup_game(const.SCREEN_WIDTH, const.SCREEN_HEIGHT, SCREEN_TITLE)
-    arcade.run()
-
-
-if __name__ == "__main__":
-    main()

@@ -38,21 +38,21 @@
         },
         "level1.tmx": {
             "expandedGroupLayers": [
-                16
+                19
             ],
             "scale": 0.25,
-            "selectedLayer": 0,
+            "selectedLayer": 13,
             "viewCenter": {
-                "x": 3964,
-                "y": 1758
+                "x": 2560,
+                "y": 1278
             }
         },
         "level2.tmx": {
             "scale": 0.33,
-            "selectedLayer": 8,
+            "selectedLayer": 14,
             "viewCenter": {
-                "x": 1933.3333333333335,
-                "y": 3143.939393939394
+                "x": 3266.666666666667,
+                "y": 498.4848484848485
             }
         },
         "level_2.tmx": {
@@ -79,8 +79,8 @@
     "project": "platformertiled-project.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "level2.tmx",
         "level1.tmx",
+        "level2.tmx",
         "level_2.tmx",
         "C:/Users/donpa/Downloads/level_2.tmx",
         "level1 — копия.tmx",
