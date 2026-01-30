@@ -4,7 +4,6 @@ from pyglet.graphics import Batch
 
 from gameplay_presentation import const
 from gameplay_presentation.game_logic import Logic
-from utilities.particle import Particle
 
 SCREEN_TITLE = "Real Jump"
 
@@ -12,17 +11,38 @@ SCREEN_TITLE = "Real Jump"
 class Level(arcade.View):
     def __init__(self, map_path):
         super().__init__()
-        arcade.set_background_color(arcade.color.BLACK)
         self.map_path = map_path
         self.setup()
 
     def setup(self):
-        self.player = arcade.Sprite(
-            ":resources:/images/animated_characters/male_adventurer/maleAdventurer_idle.png",
-            scale=0.5)
+        self.background = arcade.load_texture('assets/background_color_hills.png')
+        self.bg_width = const.SCREEN_WIDTH * 1.3
+        self.bg_height = const.SCREEN_HEIGHT * 1.3
+
         self.tile_map = arcade.load_tilemap(
             self.map_path,
             scaling=0.5)
+        self.idle_texture = arcade.load_texture(
+            ":resources:/images/animated_characters/male_adventurer/maleAdventurer_idle.png"
+        )
+
+        self.walk_textures = []
+        for i in range(8):
+            texture = arcade.load_texture(
+                f":resources:/images/animated_characters/male_adventurer/maleAdventurer_walk{i}.png"
+            )
+            self.walk_textures.append(texture)
+
+        self.jump_texture = arcade.load_texture(
+            ":resources:/images/animated_characters/male_adventurer/maleAdventurer_jump.png"
+        )
+
+        self.current_texture = 0
+        self.animation_timer = 0
+        self.facing_right = True
+
+        self.player = arcade.Sprite(scale=0.5)
+        self.player.texture = self.idle_texture
         self.player.center_x = 100
         self.player.center_y = 100
         self.checkpoint_x = self.player.center_x
@@ -67,14 +87,63 @@ class Level(arcade.View):
 
     def on_draw(self):
         self.clear()
-        self.world_camera.use()  # Активируем камеру для игрового мира
-        self.batch.draw()
+
+        self.world_camera.use()
+        camera_x, camera_y = self.world_camera.position.x, self.world_camera.position.y
+
+        arcade.draw_texture_rect(self.background, arcade.rect.XYWH(camera_x,
+                                                                   camera_y,
+                                                                   const.SCREEN_WIDTH,
+                                                                   const.SCREEN_HEIGHT))
+
         self.player_spritelist.draw()
         self.scene.draw()
         self.player_spritelist.draw()
         self.particles.draw()
+        self.gui_camera.use()
+        self.batch.draw()
+
+    def update_animation(self, delta_time):
+        """Обновление анимации персонажа"""
+        # Определяем направление взгляда
+        if self.player.change_x > 0:
+            self.facing_right = True
+        elif self.player.change_x < 0:
+            self.facing_right = False
+
+        grounded = self.physics_engine.can_jump(y_distance=6)
+
+        if not grounded:
+
+            self.player.texture = self.jump_texture
+            self.animation_timer = 0
+        elif abs(self.player.change_x) > 0.1:
+
+            self.animation_timer += delta_time
+            animation_speed = 0.1
+
+            if self.animation_timer >= animation_speed:
+                self.animation_timer = 0
+                self.current_texture += 1
+                if self.current_texture >= len(self.walk_textures):
+                    self.current_texture = 0
+
+            self.player.texture = self.walk_textures[self.current_texture]
+        else:
+
+            self.player.texture = self.idle_texture
+            self.animation_timer = 0
+
+        current_scale = self.player.scale
+
+        scale_x, scale_y = current_scale
+        if self.facing_right:
+            self.player.scale = (abs(scale_x), scale_y)
+        else:
+            self.player.scale = (-abs(scale_x), scale_y)
 
     def on_update(self, delta_time):
+        self.update_animation(delta_time)
 
         """лестницы"""
         on_ladder = self.physics_engine.is_on_ladder()  # На лестнице?
@@ -130,7 +199,7 @@ class Level(arcade.View):
         self.logics.trampoline_logic('trampolines', self.player, const.JUMP_SPEED * 2)
         self.logics.level_finished('finish_flag', self.player, self.score)
         self.text = arcade.Text(f'Score: {self.score}',
-                                10, self.height - 30, arcade.color.WHITE,
+                                10, self.height - 30, arcade.color.BLACK,
                                 24, batch=self.batch)
         position = (
             self.player.center_x + const.SCREEN_WIDTH // 12,
