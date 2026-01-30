@@ -4,6 +4,7 @@ import arcade
 from arcade.gui import UIManager, UIAnchorLayout, UIBoxLayout, UIFlatButton, UILabel
 
 from gameplay_presentation.game import Level
+from gameplay_presentation.gui.results_view import ResultsView
 
 
 class MenuView(arcade.View):
@@ -44,9 +45,18 @@ class MenuView(arcade.View):
         )
         level_button2.on_click = partial(self.switch_view, button=2)
 
+        results_button = UIFlatButton(
+            text="История результатов",
+            width=350,
+            height=100,
+            color=arcade.color.BRICK_RED
+        )
+        results_button.on_click = partial(self.switch_view, button=4)
+
         self.box_layout.add(title_label)
         self.box_layout.add(level_button1)
         self.box_layout.add(level_button2)
+        self.box_layout.add(results_button)
 
     def on_draw(self):
         self.clear()
@@ -59,3 +69,6 @@ class MenuView(arcade.View):
         elif button == 2:
             self.game_view = Level(map_path='assets/level2.tmx')
             self.window.show_view(self.game_view)
+        elif button == 4:
+            results_view = ResultsView()
+            self.window.show_view(results_view)

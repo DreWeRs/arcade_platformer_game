@@ -2,6 +2,7 @@ import arcade
 from arcade.gui import UIManager, UIAnchorLayout, UILabel, UIFlatButton, UIBoxLayout
 
 from gameplay_presentation.gui import menu_view
+from utilities.get_date import get_date
 
 
 class EndGameView(arcade.View):
@@ -16,6 +17,8 @@ class EndGameView(arcade.View):
 
         self.anchor_layout = UIAnchorLayout()
         self.box_layout = UIBoxLayout(vertical=True, space_between=30)
+
+        self.csv_manager = self.window.csv_manager
 
         self.setup_widgets()
 
@@ -52,4 +55,7 @@ class EndGameView(arcade.View):
         self.manager.draw()
 
     def return_to_menu(self, events):
+        result = self.csv_manager.load_from_csv()
+        result.append([self.score, get_date()])
+        self.csv_manager.write_to_csv(result)
         self.window.show_view(menu_view.MenuView())
