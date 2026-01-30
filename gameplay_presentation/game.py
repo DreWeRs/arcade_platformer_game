@@ -4,6 +4,7 @@ from pyglet.graphics import Batch
 
 from gameplay_presentation import const
 from gameplay_presentation.game_logic import Logic
+from utilities.particle import Particle
 
 SCREEN_TITLE = "Real Jump"
 
@@ -29,6 +30,7 @@ class Level(arcade.View):
         self.spawn_point = (self.checkpoint_x, self.checkpoint_y)
         self.player_spritelist = arcade.SpriteList()
         self.player_spritelist.append(self.player)
+        self.particles = arcade.SpriteList()
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
         self.score = 0
         self.batch = Batch()
@@ -70,6 +72,7 @@ class Level(arcade.View):
         self.player_spritelist.draw()
         self.scene.draw()
         self.player_spritelist.draw()
+        self.particles.draw()
 
     def on_update(self, delta_time):
 
@@ -123,7 +126,7 @@ class Level(arcade.View):
         self.logics.keys_logic('keys_blue', 'doors_blue', self.player, self.collisions)
         self.logics.keys_logic('keys_yellow', 'doors_yellow', self.player, self.collisions)
         self.logics.keys_logic('keys_red', 'doors_red', self.player, self.collisions)
-        self.score = self.logics.coins_logic('coins', self.score, self.player)
+        self.score, new_particles = self.logics.coins_logic('coins', self.score, self.player)
         self.logics.trampoline_logic('trampolines', self.player, const.JUMP_SPEED * 2)
         self.logics.level_finished('finish_flag', self.player, self.score)
         self.text = arcade.Text(f'Score: {self.score}',
@@ -139,6 +142,10 @@ class Level(arcade.View):
             const.CAMERA_LERP,  # Плавность следования камеры
         )
         self.scene.get_sprite_list("walls_back_base").color = (128, 128, 128)
+
+        self.particles.extend(new_particles)
+        self.particles.update()
+        self.particles.update_animation(delta_time)
 
     def on_key_press(self, key, modifiers):
         if key in (arcade.key.LEFT, arcade.key.A):

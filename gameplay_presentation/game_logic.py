@@ -1,6 +1,7 @@
 import arcade
 
 from gameplay_presentation.gui.end_game_view import EndGameView
+from utilities.particle import Particle
 
 
 class Logic:
@@ -18,10 +19,16 @@ class Logic:
 
     def coins_logic(self, coins, score, player):
         check_coins = arcade.check_for_collision_with_list(player, self.scene[f'{coins}'])
+        particles = []
         for coin in check_coins:
             self.scene[f'{coins}'].remove(coin)
             score += 1
-        return score
+
+            for i in range(30):
+                particle = Particle(coin.center_x, coin.center_y)
+                particles.append(particle)
+
+        return score, particles
 
     def trampoline_logic(self, trampoline, player, speed):
         if len(arcade.check_for_collision_with_list(player, self.scene[f'{trampoline}'])) > 0:
