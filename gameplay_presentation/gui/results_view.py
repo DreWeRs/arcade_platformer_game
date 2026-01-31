@@ -1,5 +1,7 @@
 import arcade
-from arcade.gui import UIManager, UIAnchorLayout, UIBoxLayout, UILabel
+from arcade.gui import UIManager, UIAnchorLayout, UIBoxLayout, UILabel, UIFlatButton
+
+from gameplay_presentation.gui import menu_view
 
 
 class ResultsView(arcade.View):
@@ -37,6 +39,18 @@ class ResultsView(arcade.View):
             )
             self.box_layout.add(label)
 
+        return_button = UIFlatButton(
+            text="Вернуться в меню",
+            width=350,
+            height=100,
+            color=arcade.color.OUTER_SPACE,
+        )
+        return_button.on_click = self.return_to_menu
+        self.box_layout.add(return_button)
+
     def on_draw(self):
         self.clear()
         self.manager.draw()
+
+    def return_to_menu(self, events):
+        self.window.show_view(menu_view.MenuView())
