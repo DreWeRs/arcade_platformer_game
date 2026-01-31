@@ -1,9 +1,9 @@
 import arcade
 
-from presentation.views.menu_view import MenuView
+from gameplay_presentation.gui.menu_view import MenuView
 
 
-class Game(arcade.Window):
+class MainWindow(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
