@@ -1,5 +1,6 @@
 import arcade
 
+from gameplay_presentation.const import MAX_PARTICLES
 from gameplay_presentation.gui.end_game_view import EndGameView
 from utilities.particles import CoinParticle, TrampolineParticle
 
@@ -24,7 +25,8 @@ class Logic:
             self.scene[f'{coins}'].remove(coin)
             score += 1
 
-            for i in range(30):
+            self.window.sounds_manager.coin_sound.play()
+            for i in range(MAX_PARTICLES):
                 particle = CoinParticle(coin.center_x, coin.center_y)
                 particles.append(particle)
 
@@ -36,8 +38,9 @@ class Logic:
         if len(check_trampolines) > 0:
             player.change_y = speed
 
+            self.window.sounds_manager.trampoline_sound.play()
             trampoline = check_trampolines[0]
-            for i in range(30):
+            for i in range(MAX_PARTICLES):
                 particle = TrampolineParticle(trampoline.center_x, trampoline.center_y)
                 particles.append(particle)
         return particles
