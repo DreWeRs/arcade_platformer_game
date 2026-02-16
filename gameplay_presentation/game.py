@@ -195,8 +195,8 @@ class Level(arcade.View):
         self.logics.keys_logic('keys_blue', 'doors_blue', self.player, self.collisions)
         self.logics.keys_logic('keys_yellow', 'doors_yellow', self.player, self.collisions)
         self.logics.keys_logic('keys_red', 'doors_red', self.player, self.collisions)
-        self.score, new_particles = self.logics.coins_logic('coins', self.score, self.player)
-        self.logics.trampoline_logic('trampolines', self.player, const.JUMP_SPEED * 2)
+        self.score, new_coin_particles = self.logics.coins_logic('coins', self.score, self.player)
+        new_trampoline_particles = self.logics.trampoline_logic('trampolines', self.player, const.JUMP_SPEED * 2)
         self.logics.level_finished('finish_flag', self.player, self.score)
         self.text = arcade.Text(f'Score: {self.score}',
                                 10, self.height - 30, arcade.color.BLACK,
@@ -212,7 +212,8 @@ class Level(arcade.View):
         )
         self.scene.get_sprite_list("walls_back_base").color = (128, 128, 128)
 
-        self.particles.extend(new_particles)
+        self.particles.extend(new_coin_particles)
+        self.particles.extend(new_trampoline_particles)
         self.particles.update()
         self.particles.update_animation(delta_time)
 

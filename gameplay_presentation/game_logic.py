@@ -1,7 +1,7 @@
 import arcade
 
 from gameplay_presentation.gui.end_game_view import EndGameView
-from utilities.particle import Particle
+from utilities.particles import CoinParticle, TrampolineParticle
 
 
 class Logic:
@@ -25,15 +25,22 @@ class Logic:
             score += 1
 
             for i in range(30):
-                particle = Particle(coin.center_x, coin.center_y)
+                particle = CoinParticle(coin.center_x, coin.center_y)
                 particles.append(particle)
 
         return score, particles
 
     def trampoline_logic(self, trampoline, player, speed):
-        if len(arcade.check_for_collision_with_list(player, self.scene[f'{trampoline}'])) > 0:
+        check_trampolines = arcade.check_for_collision_with_list(player, self.scene[f'{trampoline}'])
+        particles = []
+        if len(check_trampolines) > 0:
             player.change_y = speed
 
+            trampoline = check_trampolines[0]
+            for i in range(30):
+                particle = TrampolineParticle(trampoline.center_x, trampoline.center_y)
+                particles.append(particle)
+        return particles
 
     def checkpoints_flag(self, flag, player, checkpoint_x, checkpoint_y):
         if len(arcade.check_for_collision_with_list(player, self.scene[f'{flag}'])) > 0:
