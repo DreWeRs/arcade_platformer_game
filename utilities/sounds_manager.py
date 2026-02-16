@@ -6,3 +6,5 @@ class SoundsManager:
     def __init__(self):
         self.level_complete_sound = arcade.load_sound('assets/sounds/level-complete-sound.wav')
         self.damage_sound = arcade.load_sound('assets/sounds/damage-sound.wav')
+        self.trampoline_sound = arcade.load_sound('assets/sounds/trampoline-jump-sound.wav')
+        self.coin_sound = arcade.load_sound('assets/sounds/coin-sound.wav')
